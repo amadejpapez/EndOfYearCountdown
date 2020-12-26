@@ -5,6 +5,7 @@ import schedule
 import time
 from datetime import date
 
+
 # END OF YEAR COUNTDOWN BOT
 def endOfYearCountdown():
     # calculate how many days till the end of the year
@@ -30,6 +31,8 @@ def endOfYearCountdown():
             api.update_status(emoji.emojize("Enjoy your last day of the year! :grinning:", use_aliases=True))
     if(daysUntil == 0):
         # if it's the first day of the year
+        api.update_profile_image("2021.jpg")
+        api.update_profile(description=emoji.emojize("How many days or weeks till the end of 2021? | new tweet every day :robot:", use_aliases=True))
         api.update_status(emoji.emojize("It’s the first day of 2021! Wishing you health, wealth, and happiness in the new year ahead. Happy New Year! :tada:", use_aliases=True))
 
 schedule.every().day.at("06:00").do(endOfYearCountdown)
