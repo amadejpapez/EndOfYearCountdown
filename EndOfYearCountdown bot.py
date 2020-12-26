@@ -1,47 +1,37 @@
 # IMPORT MODULES
 import tweepy
 import emoji
-import schedule
-import time
 from datetime import date
 
-# END OF YEAR COUNTDOWN BOT
-def endOfYearCountdown():
-    # calculate how many days till the end of the year
-    todaysDate = date.today()
-    endOfYearDate = date(2021, 1, 1)
-    subtractDates = endOfYearDate - todaysDate
-    daysUntil = subtractDates.days
-    # check if the bot should tweet how many weeks till the end of the year and tweet that if appropriate
-    if(daysUntil % 7 == 0):
-        # calculate and tweet how many weeks till the end of the year
+# calculate how many days till the end of the year
+todaysDate = date.today()
+endOfYearDate = date(2021, 1, 1)
+subtractDates = endOfYearDate - todaysDate
+daysUntil = subtractDates.days
+if(0 <= daysUntil <= 366):
+    if(daysUntil >= 1 and daysUntil % 7 == 0):
+        # tweet how many weeks till the end of the year if number of days is dividable by 7
         weeksUntil = daysUntil / 7
-        if(weeksUntil > 1):
+        if(weeksUntil >= 2):
             api.update_status(emoji.emojize(":date: {} weeks till the end of the year".format(int(weeksUntil)), use_aliases=True))
-        elif(weeksUntil == 1):
-            # if it's the last week of the year
+        else:
+            # last week of the year
             api.update_status(emoji.emojize(":date: 1 week till the end of the year", use_aliases=True))
-    if(daysUntil % 7 != 0):
-        # if tweeting weeks is not appropriate tweet how many days till the end of the year
-        if(daysUntil >= 50):
-            # if number of days is more than 50 tweet only every tenth day
-            if(daysUntil % 10 == 0):
-                api.update_status(emoji.emojize(":clock12: {} days till the end of the year".format(daysUntil), use_aliases=True))
-        elif(daysUntil <= 49):
-            if(daysUntil > 1):
-                # if number of days is less than 50 tweet every day
-                api.update_status(emoji.emojize(":clock12: Only {} days till the end of the year".format(daysUntil), use_aliases=True))
-            elif(daysUntil == 1):
-                # if it's the last day of the year
-                api.update_status(emoji.emojize("Enjoy the last day of 2020! :smile:", use_aliases=True))
-    if(daysUntil == 0):
-        # if it's the first day of the year
-        api.update_profile_image("2021.jpg")
-        api.update_profile(description=emoji.emojize("How many days or weeks till the end of 2021? | new tweet every day :robot:", use_aliases=True))
+    elif(daysUntil >= 51):
+        if(daysUntil % 10 == 0):
+            # when there are more than 50 days till the end of the year tweet only every tenth day
+            api.update_status(emoji.emojize(":clock12: {} days till the end of the year".format(daysUntil), use_aliases=True))
+    elif(21 <= daysUntil <= 50):
+        # when there are only 50 days till the end of the year tweet every day
+        api.update_status(emoji.emojize(":clock12: {} days till the end of the year".format(daysUntil), use_aliases=True))
+    elif(2 <= daysUntil <= 20):
+        # when there are less than 20 days till the end of the year tweet with "only"
+        api.update_status(emoji.emojize("Only {} days till the end of the year :hourglass:".format(daysUntil), use_aliases=True))
+    elif(daysUntil == 1):
+        # last day of the year
+        api.update_status(emoji.emojize("Enjoy the last day of 2020! :smile:", use_aliases=True))
+    else:
+        # first day of the year
+        api.update_profile_image("/home/peterindark/2021.jpg")
+        api.update_profile(description=emoji.emojize("How many days or weeks till the end of 2021? :robot:", use_aliases=True))
         api.update_status(emoji.emojize("It’s the first day of 2021! Wishing you health, wealth, and happiness in the new year ahead. Happy New Year! :tada:", use_aliases=True))
-
-schedule.every().day.at("06:00").do(endOfYearCountdown)
-
-while True:
-    schedule.run_pending()
-    time.sleep(1)
