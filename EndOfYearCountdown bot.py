@@ -32,7 +32,7 @@ if(0 <= daysUntil <= 366):
         api.update_status(emoji.emojize("Enjoy the last day of 2021! :smile:", use_aliases=True))
     else:
         # first day of the year
-        api.update_profile_image("/home/peterindark/2022.jpg")
+        api.update_profile_image("/home/**/2022.jpg")
         api.update_profile(description=emoji.emojize("How many days or weeks till the end of 2022? :calendar:", use_aliases=True))
         api.update_status(emoji.emojize("It’s the first day of 2022! Wishing you health, wealth, and happiness in the new year ahead. Happy New Year! :tada:", use_aliases=True))
         api.update_status(emoji.emojize(":clock12: 365 days till the end of the year", use_aliases=True))
