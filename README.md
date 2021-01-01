@@ -9,4 +9,4 @@ Bot knows which date and year is it, when does it end and which year is next. Wh
 ### How does it work?
 Bot is written in Python and the code is often updated as new ideas appear. It uses a Python library called __Tweepy__. Tweepy is open-source on GitHub and enables communication between Python and Twitter API. You can find more about Tweepy on their [official page](https://www.tweepy.org/) or on their [GitHub repository](https://github.com/tweepy/tweepy).
 
-This Python code is hosted on __PythonAnywhere__, which offers hosting Python code in the cloud. PythonAnywhere offers a feature called Tasks, which enables you to upload your Python code and set the time when you want it to be run. You can find more about PythonAnywhere on their [official page](https://www.pythonanywhere.com/).
+This Python code is hosted on __PythonAnywhere__, which offers hosting Python code in the cloud. PythonAnywhere has a feature called Tasks, which enables you to upload your Python code and set the time when you want to run it. You can find more about PythonAnywhere on their [official page](https://www.pythonanywhere.com/).
