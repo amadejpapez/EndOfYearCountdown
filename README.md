@@ -7,7 +7,7 @@
 Bot knows which date and year is it, when does it end and which year is next. When the code is run it will determine all dates and calculate how many days there are till the end of the year. First it will check if number of days can be evenly divided by 7. If yes, it will tweet how many full weeks there are till the end of the year. If not, it will check if tweeting days is appropriate. In the beginning the bot tweeted how many days there are left every single day, now over the year it tweets every fifth day, so it does not tweet too often, until the last month, when it again starts tweeting every day. There are special tweets set for the last and the first day of the year. On the first day of the year the bot will also update the profile picture and description on Twitter to reflect a new year.
 
 <p align="center">
-  <img src="images/image1.jpg" width=400>
+  <img src="images/image1.jpg" width=350>
 <p>
 
 ### How does it work?
