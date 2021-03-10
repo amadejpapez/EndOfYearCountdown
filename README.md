@@ -20,4 +20,4 @@ Currently I am using a website called __PythonAnywhere__. PythonAnywhere has a f
 <br>
 
 ## 😇 Got any ideas?
-The bot is often updated as new ideas appear - and new issues of course :) If you have any ideas, feel free to message me.
+The bot is often updated as new ideas appear. If you have also any ideas, feel free to message me.
