@@ -47,7 +47,7 @@ def ordinalNumbers(number):
 
 def getPhoto():
     # get image from Unsplash
-    unsplash = PyUnsplash(api_key="Zsm38xHVdmsDMjMoX7WwkEzLAFoMjhSE5h_KEU3OPJg")
+    unsplash = PyUnsplash(api_key="x")
     global image
     image = unsplash.photos(type_="random", count=1, featured=True, orientation="landscape", query="nature, animals, beach, see, relaxing, travel, positivity")
 
