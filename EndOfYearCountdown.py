@@ -51,9 +51,9 @@ def getPhoto():
     global image
     image = unsplash.photos(type_="random", count=1, featured=True, orientation="landscape", query="nature, animals, beach, see, relaxing, travel, positivity")
 
-    if os.path.exists("photo.jpg"):
+    if os.path.exists(f"{dirPath}/photo.jpg"):
         # remove previous "photo"
-        os.remove("photo.jpg")
+        os.remove(f"{dirPath}/photo.jpg")
 
     optimizePhoto()
 
@@ -65,11 +65,11 @@ def optimizePhoto():
         # download image to the current folder
         wget.download(image.link_download, out=f"{dirPath}/photo.jpg")
 
-        if os.path.getsize("photo.jpg") >= 3200000:
+        if os.path.getsize(f"{dirPath}/photo.jpg") >= 3200000:
             # if image is bigger than 3.2 MB, take another one
             getPhoto()
 
-        while os.path.getsize("photo.jpg") >= 3072000:
+        while os.path.getsize(f"{dirPath}/photo.jpg") >= 3072000:
             # if image is larger than 3.072 MB, optimize it as larger size will cause an error
             image = Image.open(f"{dirPath}/photo.jpg")
             image.resize((1080,566),Image.ANTIALIAS)
