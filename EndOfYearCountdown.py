@@ -1,15 +1,19 @@
 import os
-import wget
+from datetime import date
+
 import emoji
 import tweepy
+import wget
 from PIL import Image
-from datetime import date
 from pyunsplash import PyUnsplash
 
-api_key = "x"
-api_key_secret = "x"
-access_token = "x"
-access_token_secret = "x"
+from auth_secrets import keys
+
+
+api_key             = keys["EndOfYearCountdown"]["api_key"]
+api_key_secret      = keys["EndOfYearCountdown"]["api_key_secret"]
+access_token        = keys["EndOfYearCountdown"]["access_token"]
+access_token_secret = keys["EndOfYearCountdown"]["access_token_secret"]
 
 auth = tweepy.OAuthHandler(api_key, api_key_secret)
 auth.set_access_token(access_token, access_token_secret)
@@ -47,7 +51,7 @@ def ordinalNumbers(number):
 
 def getPhoto():
     # get image from Unsplash
-    unsplash = PyUnsplash(api_key="x")
+    unsplash = PyUnsplash(api_key=keys["PyUnsplash"]["api_key"])
     global image
     image = unsplash.photos(type_="random", count=1, featured=True, orientation="landscape", query="nature, animals, beach, see, relaxing, travel, positivity")
 
