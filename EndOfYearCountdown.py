@@ -122,20 +122,20 @@ if daysUntil % 7 == 0:
 elif str(currentDate) == (str(currentYear) + "-01-01"):
     # first day of the year
     api.update_profile_image(f"{dirPath}/{currentYear}.jpg")
-    tweet = f"It’s the first day of {currentYear} and there are {daysUntil} days left until the end of the year! I wish you all health, wealth, and happiness in the new year ahead. Happy New Year! :tada:"
+    tweet = f"It’s the first day of {currentYear} and there are {daysUntil} days left till the end of the year! I wish you all health, wealth, and happiness in the new year ahead. Happy New Year! :tada:"
 
 elif daysUntil == 1:
     # last day of the year
-    tweet = f"Today is the {daysBefore} day of {currentYear} and there is only 1 day left till the end of the year! :partying_face:"
+    tweet = f"Today is the {daysBefore} day of {currentYear} and there is only 1 day left! :partying_face:"
 
 elif daysUntil > 1 and daysUntil <= 31:
     # last month
-    tweet = f"Only {daysUntil} days till the end of the year :hourglass:"
+    tweet = f"Only {daysUntil} days left till the end of the year :hourglass:"
 
 elif daysUntil >= 32 and daysUntil % 5 == 0:
     # when there are more than 32 days till the end of the year
     getPhoto()
-    tweet = f"Today is the {daysBefore} day of {currentYear} and there are exactly {daysUntil} days left till the end of the year. :sun:"
+    tweet = f"Today is the {daysBefore} day of {currentYear} and there are {daysUntil} days left till the end of the year. :sun:"
 
 
 if tweet != False and haveImage == True:
