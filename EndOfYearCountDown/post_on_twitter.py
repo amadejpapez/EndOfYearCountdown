@@ -15,6 +15,7 @@ api = tweepy.API(auth)
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 
+
 def tweet(text):
     api.update_status(emoji.emojize(text), use_aliases=True)
 

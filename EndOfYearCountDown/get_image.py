@@ -5,8 +5,8 @@ from auth_secrets import keys
 from PIL import Image
 from pyunsplash import PyUnsplash
 
-
 dirPath = os.path.dirname(os.path.realpath(__file__))
+
 
 def get_image(season):
     # get image from Unsplash
