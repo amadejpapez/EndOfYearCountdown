@@ -9,10 +9,9 @@ from pyunsplash import PyUnsplash
 
 from auth_secrets import keys
 
-
-api_key             = keys["EndOfYearCountdown"]["api_key"]
-api_key_secret      = keys["EndOfYearCountdown"]["api_key_secret"]
-access_token        = keys["EndOfYearCountdown"]["access_token"]
+api_key = keys["EndOfYearCountdown"]["api_key"]
+api_key_secret = keys["EndOfYearCountdown"]["api_key_secret"]
+access_token = keys["EndOfYearCountdown"]["access_token"]
 access_token_secret = keys["EndOfYearCountdown"]["access_token_secret"]
 
 auth = tweepy.OAuthHandler(api_key, api_key_secret)
@@ -22,7 +21,7 @@ api = tweepy.API(auth)
 
 def ordinalNumbers(number):
     if int(number) < 20:
-        if number == "1": 
+        if number == "1":
             number += "st"
         elif number == "2":
             number += "nd"
@@ -34,9 +33,9 @@ def ordinalNumbers(number):
         tens = number[-2]
         unit = number[-1]
         if tens == "1":
-           number += "th"
+            number += "th"
         else:
-            if unit == "1": 
+            if unit == "1":
                 number += "st"
             elif unit == "2":
                 number += "nd"
@@ -45,26 +44,29 @@ def ordinalNumbers(number):
             else:
                 number += "th"
 
-    global daysBefore
-    daysBefore = number
+    return number
 
 
 def getPhoto():
     # get image from Unsplash
     unsplash = PyUnsplash(api_key=keys["PyUnsplash"]["api_key"])
-    global image
-    image = unsplash.photos(type_="random", count=1, featured=True, orientation="landscape", query="nature, animals, beach, see, relaxing, travel, positivity")
+    image = unsplash.photos(
+        type_="random",
+        count=1,
+        featured=True,
+        orientation="landscape",
+        query="nature, animals, beach, see, relaxing, travel, positivity",
+    )
 
     if os.path.exists(f"{dirPath}/photo.jpg"):
         # remove previous "photo"
         os.remove(f"{dirPath}/photo.jpg")
 
-    optimizePhoto()
+    global haveImage
+    haveImage = optimizePhoto(image)
 
 
-def optimizePhoto():
-    global image
-
+def optimizePhoto(image):
     for image in image.entries:
         # download image to the current folder
         wget.download(image.link_download, out=f"{dirPath}/photo.jpg")
@@ -76,12 +78,10 @@ def optimizePhoto():
         while os.path.getsize(f"{dirPath}/photo.jpg") >= 3072000:
             # if image is larger than 3.072 MB, optimize it as larger size will cause an error
             image = Image.open(f"{dirPath}/photo.jpg")
-            image.resize((1080,566),Image.ANTIALIAS)
+            image.resize((1080, 566), Image.ANTIALIAS)
             image.save(f"{dirPath}/photo.jpg", quality=80)
 
-    global haveImage
-    haveImage = True
-
+    return True
 
 
 currentDate = date.today()
@@ -92,13 +92,12 @@ subtractDates = endOfYearDate - currentDate
 daysUntil = subtractDates.days
 
 daysBefore = currentDate - date(currentYear, 1, 1)
-ordinalNumbers(str(daysBefore.days))
+daysBefore = ordinalNumbers(str(daysBefore.days))
 
 dirPath = os.path.dirname(os.path.realpath(__file__))
 
 tweet = False
 haveImage = False
-
 
 
 # TWEET WEEKS if number of days is dividable by 7
