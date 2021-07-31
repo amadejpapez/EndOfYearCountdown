@@ -23,17 +23,17 @@ def get_image(season):
         # remove previous "photo"
         os.remove(f"{dirPath}/photo.jpg")
 
-    optimize_image(image)
+    optimize_image(image, season)
 
 
-def optimize_image(image):
+def optimize_image(image, season):
     for image in image.entries:
         # download image to the current folder
         wget.download(image.link_download, out=f"{dirPath}/photo.jpg")
 
         if os.path.getsize(f"{dirPath}/photo.jpg") >= 3200000:
             # if image is bigger than 3.2 MB, take another one
-            get_image()
+            get_image(season)
 
         while os.path.getsize(f"{dirPath}/photo.jpg") >= 3072000:
             # if image is larger than 3.072 MB, optimize it as larger size will cause an error
