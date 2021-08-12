@@ -21,6 +21,8 @@ season = get_season(current_month)
 # TWEET WEEKS if number of days is dividable by 7
 if days_until % 7 == 0:
     weeks_until = int(days_until / 7)
+    all_weeks = int((end_of_year_date - date(current_year, 1, 1)).days / 7)
+    weeks_since = ordinal_numbers(str(all_weeks - weeks_until))
 
     if weeks_until == 1:
         # last week of the year
@@ -32,7 +34,7 @@ if days_until % 7 == 0:
 
     else:
         # when there are more than five weeks left till the end of the year
-        tweet(f"There are exactly {weeks_until} weeks left till the end of the year.")
+        tweet(f"Today is the start of the {weeks_since} week in {current_year} and there are exactly {weeks_until} weeks left till the end of the year. :calendar:")
 
 
 # OTHERWISE TWEET DAYS
@@ -57,5 +59,5 @@ elif days_until >= 32 and days_until % 5 == 0:
     # when there are more than 32 days till the end of the year
     get_image(season)
     tweet_with_an_image(
-        f"Today is the {daysBefore} day of {current_year} and there are {days_until} days left till the end of the year. :sun:"
+        f"Today is the {daysBefore} day of {current_year} and there are {days_until} days left till the end of the year."
     )
