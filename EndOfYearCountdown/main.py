@@ -41,15 +41,11 @@ if days_until % 7 == 0:
 elif str(current_date) == (str(current_year) + "-01-01"):
     # first day of the year
     update_profile_image(current_year)
-    tweet(
-        f"It’s the first day of {current_year} and there are {days_until} days left till the end of the year! I wish you all health, wealth, and happiness in the new year ahead. Happy New Year! :tada:"
-    )
+    tweet(f"It’s the first day of {current_year} and there are {days_until} days left till the end of the year! I wish you all health, wealth, and happiness in the new year ahead. Happy New Year! :tada:")
 
 elif days_until == 1:
     # last day of the year
-    tweet(
-        f"Today is the {daysBefore} day of {current_year} and there is only 1 day left! :partying_face:"
-    )
+    tweet(f"Today is the {daysBefore} day of {current_year} and there is only 1 day left! :partying_face:")
 
 elif days_until > 1 and days_until <= 31:
     # last month
@@ -58,6 +54,4 @@ elif days_until > 1 and days_until <= 31:
 elif days_until >= 32 and days_until % 5 == 0:
     # when there are more than 32 days till the end of the year
     get_image(season)
-    tweet_with_an_image(
-        f"Today is the {daysBefore} day of {current_year} and there are {days_until} days left till the end of the year."
-    )
+    tweet_with_an_image(f"Today is the {daysBefore} day of {current_year} and there are {days_until} days left till the end of the year.")
