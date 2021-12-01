@@ -16,7 +16,7 @@ def get_image(season):
         count=1,
         featured=True,
         orientation="landscape",
-        query=f"nature, animals, relaxing, travel, positivity, {season}",
+        query=season,
     )
 
     if os.path.exists(f"{dirPath}/photo.jpg"):

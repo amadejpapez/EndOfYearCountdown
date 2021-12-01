@@ -2,7 +2,7 @@ from datetime import date
 
 from deal_with_numbers import get_season, ordinal_numbers
 from get_image import get_image
-from post_on_twitter import tweet, tweet_with_an_image, update_profile_image
+from twitter import tweet, tweet_with_an_image, update_profile_image
 
 
 current_date = date.today()
@@ -41,7 +41,13 @@ if days_until % 7 == 0:
 elif str(current_date) == (str(current_year) + "-01-01"):
     # first day of the year
     update_profile_image(current_year)
-    tweet(f"It’s the first day of {current_year} and there are {days_until} days left till the end of the year! I wish you all health, wealth, and happiness in the new year ahead. Happy New Year! :tada:")
+    get_image("new year")
+    tweet_with_an_image(f"It's the first day of {current_year} and there are {days_until} days left till the end of the year! I wish you all health, wealth, and happiness in the new year ahead. Happy New Year! :tada:")
+
+elif str(current_date) == (str(current_year) + "-12-25"):
+    # first day of the year
+    get_image("christmas")
+    tweet_with_an_image(f"Merry Christmas! There are still {days_until} remaining until {next_year}.")
 
 elif days_until == 1:
     # last day of the year
@@ -49,9 +55,10 @@ elif days_until == 1:
 
 elif days_until > 1 and days_until <= 31:
     # last month
-    tweet(f"Only {days_until} days left till the end of the year :hourglass:")
+    get_image(f"relaxing, animals, {season}")
+    tweet_with_an_image(f"Only {days_until} days left till the end of the year :hourglass:")
 
 elif days_until >= 32 and days_until % 5 == 0:
     # when there are more than 32 days till the end of the year
-    get_image(season)
+    get_image(f"nature, animals, relaxing, positivity, {season}")
     tweet_with_an_image(f"Today is the {daysBefore} day of {current_year} and there are {days_until} days left till the end of the year.")

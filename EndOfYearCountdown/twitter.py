@@ -17,7 +17,7 @@ DIRPATH = os.path.dirname(os.path.realpath(__file__))
 
 
 def tweet(text):
-    api.update_status(emoji.emojize(text), use_aliases=True)
+    api.update_status(emoji.emojize(text, use_aliases=True))
 
 def tweet_with_an_image(text):
     api.update_with_media(f"{DIRPATH}/photo.jpg", emoji.emojize(text, use_aliases=True))
