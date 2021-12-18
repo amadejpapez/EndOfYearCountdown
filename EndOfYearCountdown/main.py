@@ -15,7 +15,7 @@ def tweetWeeks():
 
     elif weeks_until > 1 and weeks_until < 5:
         # last month
-        tweet(f"{weeks_until} weeks left till the end of the year :calendar:", f"relaxing, animals, {season}")
+        tweet(f"Only {weeks_until} weeks left till the end of the year :calendar:", f"relaxing, animals, {season}")
 
     else:
         # more than five weeks left
@@ -33,7 +33,7 @@ def tweetDays():
 
     elif days_until > 1 and days_until <= 31:
         # last month
-        tweet(f"{days_until} days left till the end of the year :hourglass:", f"relaxing, animals, {season}")
+        tweet(f"Only {days_until} days left till the end of the year :hourglass:", f"relaxing, animals, {season}")
 
 
 current_date = date.today()
