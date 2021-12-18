@@ -1,8 +1,39 @@
 from datetime import date
 
 from deal_with_numbers import get_season, ordinal_numbers
-from get_image import get_image
-from twitter import tweet, tweet_with_an_image, update_profile_image
+from twitter import tweet, update_profile_image
+
+
+def tweetWeeks():
+    all_weeks = int((end_of_year_date - date(current_year, 1, 1)).days / 7)
+    weeks_until = int(days_until / 7)
+    weeks_since = ordinal_numbers(str(all_weeks - weeks_until))
+
+    if weeks_until == 1:
+        # last week, Christmas
+        tweet(f"Merry Christmas! A week from now in we will be in {next_year}.", "christmas")
+
+    elif weeks_until > 1 and weeks_until < 5:
+        # last month
+        tweet(f"{weeks_until} weeks left till the end of the year :calendar:", f"relaxing, animals, {season}")
+
+    else:
+        # more than five weeks left
+        tweet(f"{weeks_since} week of {current_year} is starting with {weeks_until} weeks ({days_until} days) left this year. :calendar:", f"nature, animals, relaxing, {season}")
+
+def tweetDays():
+    if str(current_date) == (str(current_year) + "-01-01"):
+        # first day
+        tweet(f"{current_year} is finally here! I wish you all health, love, and happiness in the new year ahead. Happy New Year :tada:", "new year")
+        update_profile_image(current_year)
+
+    elif days_until == 1:
+        # last day
+        tweet(f"Today is the {daysBefore} day and there is only 1 day left in {current_year}! :partying_face:")
+
+    elif days_until > 1 and days_until <= 31:
+        # last month
+        tweet(f"{days_until} days left till the end of the year :hourglass:", f"relaxing, animals, {season}")
 
 
 current_date = date.today()
@@ -14,51 +45,9 @@ days_until = (end_of_year_date - current_date).days
 daysBefore = current_date - date(current_year, 1, 1)
 daysBefore = ordinal_numbers(str(daysBefore.days))
 
-current_month = date.today().month
-season = get_season(current_month)
+season = get_season(date.today().month)
 
-
-# TWEET WEEKS if number of days is dividable by 7
 if days_until % 7 == 0:
-    weeks_until = int(days_until / 7)
-    all_weeks = int((end_of_year_date - date(current_year, 1, 1)).days / 7)
-    weeks_since = ordinal_numbers(str(all_weeks - weeks_until))
-
-    if weeks_until == 1:
-        # last week of the year
-        tweet(f"Only 1 week till the end of the year :calendar:")
-
-    elif weeks_until > 1 and weeks_until <= 4:
-        # last month
-        tweet(f"Only {weeks_until} weeks till the end of the year :calendar:")
-
-    else:
-        # when there are more than five weeks left till the end of the year
-        tweet(f"Today is the start of the {weeks_since} week in {current_year} and there are exactly {weeks_until} weeks left till the end of the year. :calendar:")
-
-
-# OTHERWISE TWEET DAYS
-elif str(current_date) == (str(current_year) + "-01-01"):
-    # first day of the year
-    update_profile_image(current_year)
-    get_image("new year")
-    tweet_with_an_image(f"It's the first day of {current_year} and there are {days_until} days left till the end of the year! I wish you all health, wealth, and happiness in the new year ahead. Happy New Year! :tada:")
-
-elif str(current_date) == (str(current_year) + "-12-25"):
-    # first day of the year
-    get_image("christmas")
-    tweet_with_an_image(f"Merry Christmas! There are still {days_until} remaining until {next_year}.")
-
-elif days_until == 1:
-    # last day of the year
-    tweet(f"Today is the {daysBefore} day of {current_year} and there is only 1 day left! :partying_face:")
-
-elif days_until > 1 and days_until <= 31:
-    # last month
-    get_image(f"relaxing, animals, {season}")
-    tweet_with_an_image(f"Only {days_until} days left till the end of the year :hourglass:")
-
-elif days_until >= 32 and days_until % 5 == 0:
-    # when there are more than 32 days till the end of the year
-    get_image(f"nature, animals, relaxing, positivity, {season}")
-    tweet_with_an_image(f"Today is the {daysBefore} day of {current_year} and there are {days_until} days left till the end of the year.")
+    tweetWeeks()
+else:
+    tweetDays()

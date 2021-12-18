@@ -1,5 +1,4 @@
 requests==2.26.0
-tweepy==3.10.0
+tweepy==4.4.0
 emoji==1.6.1
 pyunsplash==1.0.0rc2
-Pillow==8.4.0
