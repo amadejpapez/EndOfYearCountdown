@@ -1,18 +1,25 @@
+import json
 import os
 
 import emoji
 import requests
 import tweepy
-from auth_secrets import keys
 
-api_key = keys["EndOfYearCountdown"]["api_key"]
-api_key_secret = keys["EndOfYearCountdown"]["api_key_secret"]
-access_token = keys["EndOfYearCountdown"]["access_token"]
-access_token_secret = keys["EndOfYearCountdown"]["access_token_secret"]
+location = os.path.abspath(os.path.join(__file__, "../../../auth_secrets.json"))
+with open(location, "r", encoding="utf-8") as myFile:
+    keys = json.load(myFile)
 
-auth = tweepy.OAuthHandler(api_key, api_key_secret)
-auth.set_access_token(access_token, access_token_secret)
-api = tweepy.API(auth)
+# Migrate to Twitter API v2 when it starts supporting tweets with images
+# https://trello.com/c/Zr9zDrJx/109-replacement-of-media-uploads-functionality
+auth = tweepy.OAuthHandler(
+    consumer_key = keys["EndOfYearCountdown"]["api_key"],
+    consumer_secret = keys["EndOfYearCountdown"]["api_key_secret"]
+)
+auth.set_access_token(
+    key = keys["EndOfYearCountdown"]["access_token"],
+    secret = keys["EndOfYearCountdown"]["access_token_secret"]
+)
+API = tweepy.API(auth)
 
 DIRPATH = os.path.dirname(os.path.realpath(__file__))
 
@@ -40,16 +47,16 @@ def get_image(images, query):
 def tweet(text, query = None):
     if query == None:
         # tweet without an image
-        api.update_status(emoji.emojize(text, use_aliases=True))
+        API.update_status(emoji.emojize(text, use_aliases=True))
     else:
         # tweet with an image
         request_images(query)
-        img_upload = api.media_upload(f"{DIRPATH}/photo.jpg")
+        img_upload = API.media_upload(f"{DIRPATH}/photo.jpg")
 
-        api.update_status(
+        API.update_status(
             media_ids=[img_upload.media_id],
             status=emoji.emojize(text, use_aliases=True)
         )
 
 def update_profile_image(current_year):
-    api.update_profile_image(f"{DIRPATH}/{current_year}.jpg")
+    API.update_profile_image(f"{DIRPATH}/{current_year}.jpg")
