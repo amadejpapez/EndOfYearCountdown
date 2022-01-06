@@ -5,6 +5,26 @@ import emoji
 import requests
 import tweepy
 
+"""
+API keys are stored in a separate 'auth_secrets.json' file.
+It is located outside of the EndOfYearCountdown project folder.
+
+File structure:
+-----------------------------
+{
+    "EndOfYearCountdown" : {
+        "api_key"               : "x",
+        "api_key_secret"        : "x",
+        "access_token"          : "x",
+        "access_token_secret"   : "x"
+    },
+    "PyUnsplash" : {
+        "api_key"               : "x"
+    }
+}
+-----------------------------
+"""
+
 location = os.path.abspath(os.path.join(__file__, "../../../auth_secrets.json"))
 with open(location, "r", encoding="utf-8") as myFile:
     keys = json.load(myFile)
@@ -26,7 +46,12 @@ DIRPATH = os.path.dirname(os.path.realpath(__file__))
 
 def request_images(query):
     # get 5 images from Unsplash that fit into the given query
-    images = requests.get("https://api.unsplash.com/photos/random", params={"client_id": keys["PyUnsplash"]["api_key"], "count": 5, "orientation": "landscape", "query": query}).json()
+    images = requests.get("https://api.unsplash.com/photos/random", params={
+        "client_id": keys["PyUnsplash"]["api_key"],
+        "count": 5,
+        "orientation": "landscape",
+        "query": query
+    }).json()
 
     get_image(images, query)
 
@@ -35,10 +60,10 @@ def get_image(images, query):
     for img in images:
         img_data = requests.get(img["urls"]["regular"]).content
 
-        with open(f"{DIRPATH}/photo.jpg", "wb") as myFile:
+        with open(f"{DIRPATH}/photo.jpg", "wb", encoding="utf-8") as myFile:
             myFile.write(img_data)
 
-        if os.path.getsize(f"{DIRPATH}/photo.jpg") <= 5242880:
+        if os.path.getsize(f"{DIRPATH}/photo.jpg") < 5242880:
             return img["urls"]["regular"]
 
     request_images(query)
@@ -58,5 +83,5 @@ def tweet(text, query = None):
             status=emoji.emojize(text, use_aliases=True)
         )
 
-def update_profile_image(current_year):
+def update_profile_picture(current_year):
     API.update_profile_image(f"{DIRPATH}/{current_year}.jpg")

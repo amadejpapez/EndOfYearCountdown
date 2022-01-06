@@ -1,53 +1,71 @@
-from datetime import date
+from datetime import date, timedelta
 
-from deal_with_numbers import get_season, ordinal_numbers
-from twitter import tweet, update_profile_image
+from twitter import tweet, update_profile_picture
 
-
-def tweetWeeks():
-    all_weeks = int((end_of_year_date - date(current_year, 1, 1)).days / 7)
-    weeks_until = int(days_until / 7)
-    weeks_since = ordinal_numbers(str(all_weeks - weeks_until))
-
-    if weeks_until == 1:
-        # last week, Christmas
-        tweet(f"Merry Christmas! A week from now in we will be in {next_year}.", "christmas")
-
-    elif weeks_until > 1 and weeks_until < 5:
-        # last month
-        tweet(f"Only {weeks_until} weeks left till the end of the year :calendar:", f"relaxing, animals, {season}")
-
+def get_season(month):
+    if month in range(3, 5):
+        season = "spring"
+    elif month in range(6, 8):
+        season = "summer"
+    elif month in range(9, 11):
+        season = "fall"
     else:
-        # more than five weeks left
-        tweet(f"{weeks_since} week of {current_year} is starting with {weeks_until} weeks ({days_until} days) left this year. :calendar:", f"nature, animals, relaxing, {season}")
+        season = "winter"
 
-def tweetDays():
-    if str(current_date) == (str(current_year) + "-01-01"):
-        # first day
-        tweet(f"{current_year} is finally here! I wish you all health, love, and happiness in the new year ahead. Happy New Year :tada:", "new year")
-        update_profile_image(current_year)
+    return season
 
-    elif days_until == 1:
-        # last day
-        tweet(f"Today is the {daysBefore} day and there is only 1 day left in {current_year}! :partying_face:")
+def ordinal_number(num):
+    if int(num) < 20:
+        if num == "1":
+            num += "st"
+        elif num == "2":
+            num += "nd"
+        elif num == "3":
+            num += "rd"
+        else:
+            num += "th"
+    else:
+        if num[-2] == "1":
+            num += "th"
+        else:
+            unit = num[-1]
+            if unit == "1":
+                num += "st"
+            elif unit == "2":
+                num += "nd"
+            elif unit == "3":
+                num += "rd"
+            else:
+                num += "th"
 
-    elif days_until > 1 and days_until <= 31:
-        # last month
-        tweet(f"Only {days_until} days left till the end of the year :hourglass:", f"relaxing, animals, {season}")
+    return num
 
 
-current_date = date.today()
+current_day = date.today()
+previous_day = current_day - timedelta(days=1)
+
 current_year = date.today().year
 next_year = current_year + 1
-end_of_year_date = date(next_year, 1, 1)
-days_until = (end_of_year_date - current_date).days
+end_of_year_day = date(current_year, 12, 31)
 
-daysBefore = current_date - date(current_year, 1, 1)
-daysBefore = ordinal_numbers(str(daysBefore.days))
+days_left = (end_of_year_day - current_day).days
 
 season = get_season(date.today().month)
 
-if days_until % 7 == 0:
-    tweetWeeks()
-else:
-    tweetDays()
+if previous_day.isocalendar().week < current_day.isocalendar().week:
+    weeks_all = int((end_of_year_day - date(current_year, 1, 1)).days / 7)
+    week_num = current_day.isocalendar().week
+    week_num_format = ordinal_number(str(week_num))
+    weeks_left = weeks_all - week_num
+
+    tweet(f"{week_num_format} week of {current_year} is starting with {weeks_left} weeks ({days_left} days) left this year.", f"{season} fun animals nature")
+
+elif current_day == date(current_year, 12, 25):
+    tweet(f"Merry Christmas! :christmas_tree: Next week we will be in {next_year}!", "christmas")
+
+elif current_day == date(current_year, 12, 31):
+    tweet(f"The last day of {current_year} has finally come! :partying_face:")
+
+elif current_day == date(current_year, 1, 1):
+    tweet(f"{current_year} is here! I wish you all health, love, and happiness in the new year. Happy New Year! :tada:", "new year")
+    update_profile_picture(current_year)
