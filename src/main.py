@@ -15,12 +15,12 @@ def get_season(month):
 
 
 def ordinal_number(num):
-    if int(num) < 20 and num[-2] != "1":
-        if num == "1" or num[-1] == "1":
+    if int(num) not in range(4, 21):
+        if num[-1] == "1":
             return "st"
-        if num == "2" or num[-1] == "2":
+        if num[-1] == "2":
             return "nd"
-        if num == "3" or num[-1] == "3":
+        if num[-1] == "3":
             return "rd"
 
     return "th"
