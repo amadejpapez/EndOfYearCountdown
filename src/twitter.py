@@ -1,11 +1,6 @@
-import json
-import os
-
-import emoji
-import requests
-import tweepy
-
 """
+Handles posting to Twitter.
+
 API keys are stored in a separate 'auth_secrets.json' file.
 It is located outside of the EndOfYearCountdown project folder.
 
@@ -25,6 +20,13 @@ File structure:
 -----------------------------
 """
 
+import json
+import os
+
+import emoji
+import requests
+import tweepy
+
 location = os.path.abspath(os.path.join(__file__, "../../../auth_secrets.json"))
 with open(location, "r", encoding="utf-8") as authFile:
     keys = json.load(authFile)
@@ -32,12 +34,12 @@ with open(location, "r", encoding="utf-8") as authFile:
 # Migrate to Twitter API v2 when it starts supporting tweets with images
 # https://trello.com/c/Zr9zDrJx/109-replacement-of-media-uploads-functionality
 auth = tweepy.OAuthHandler(
-    consumer_key = keys["EndOfYearCountdown"]["api_key"],
-    consumer_secret = keys["EndOfYearCountdown"]["api_key_secret"]
+    consumer_key=keys["EndOfYearCountdown"]["api_key"],
+    consumer_secret=keys["EndOfYearCountdown"]["api_key_secret"]
 )
 auth.set_access_token(
-    key = keys["EndOfYearCountdown"]["access_token"],
-    secret = keys["EndOfYearCountdown"]["access_token_secret"]
+    key=keys["EndOfYearCountdown"]["access_token"],
+    secret=keys["EndOfYearCountdown"]["access_token_secret"]
 )
 API = tweepy.API(auth)
 
@@ -45,27 +47,27 @@ DIRPATH = os.path.dirname(os.path.realpath(__file__))
 
 
 def request_images(query):
-    # get 5 images from Unsplash that fit into the given query
-    images = requests.get(
+    # get 3 images from Unsplash that fit into the given query
+    response = requests.get(
         "https://api.unsplash.com/photos/random",
         params={
             "client_id": keys["PyUnsplash"]["api_key"],
-            "count": 5,
+            "count": 3,
             "orientation": "landscape",
             "query": query,
         },
     ).json()
 
-    get_image(images, query)
+    get_image(response, query)
 
 
-def get_image(images, query):
-    # takes image that is under 5MB, if all are over that request 5 new ones
-    for img in images:
+def get_image(response, query):
+    # takes image that is under 5MB, if all are over that request 3 new ones
+    for img in response:
         img_data = requests.get(img["urls"]["regular"]).content
 
-        with open(f"{DIRPATH}/photo.jpg", "wb") as imgFile:
-            imgFile.write(img_data)
+        with open(f"{DIRPATH}/photo.jpg", "wb") as img_file:
+            img_file.write(img_data)
 
         if os.path.getsize(f"{DIRPATH}/photo.jpg") < 5242880:
             return img["urls"]["regular"]
@@ -73,7 +75,7 @@ def get_image(images, query):
     request_images(query)
 
 
-def tweet(text, query = None):
+def tweet(text, query=None):
     if query is None:
         # tweet without an image
         API.update_status(emoji.emojize(text, use_aliases=True))

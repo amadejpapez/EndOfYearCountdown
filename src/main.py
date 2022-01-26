@@ -45,7 +45,7 @@ if previous_day.isocalendar().week < current_day.isocalendar().week:
 
     tweet(
         f"{week_num_format} week of {current_year} is starting with {weeks_left} weeks ({days_left} days) left this year. :sun:",
-        f"{season} fun animals nature",
+        # f"{season} fun animals nature",
     )
 
 elif current_day == date(current_year, 12, 25):
