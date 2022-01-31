@@ -1,9 +1,30 @@
+import os
 from datetime import date, timedelta
+from json import load
 
-from twitter import tweet, update_profile_picture
+import tweepy
+from emoji import emojize
+
+
+def tweet(tweet_text):
+    """Send a tweet to Twitter via API v2"""
+
+    LOC = os.path.abspath(os.path.join(__file__, "../../../auth_secrets.json"))
+    with open(LOC, "r", encoding="utf-8") as auth_file:
+        KEYS = load(auth_file)
+
+    API = tweepy.Client(
+        consumer_key=KEYS["EndOfYearCountdown"]["api_key"],
+        consumer_secret=KEYS["EndOfYearCountdown"]["api_key_secret"],
+        access_token=KEYS["EndOfYearCountdown"]["access_token"],
+        access_token_secret=KEYS["EndOfYearCountdown"]["access_token_secret"],
+    )
+
+    API.create_tweet(text=emojize(tweet_text, use_aliases=True))
 
 
 def ordinal_number(num):
+    """Add an ordinal number suffix to numbers."""
     if int(num) not in range(4, 21):
         if num[-1] == "1":
             return "st"
@@ -15,35 +36,39 @@ def ordinal_number(num):
     return "th"
 
 
-current_day = date.today()
-previous_day = current_day - timedelta(days=1)
+def format_tweet(current_date):
+    """
+    Does the checking if tweeting is needed for today.
+    If not, it returns None. Otherwise a formatted tweet.
 
-current_year = date.today().year
-next_year = current_year + 1
-end_of_year_day = date(current_year, 12, 31)
+    ---
+    5th week of 2022 is starting with 47 weeks (334 days) left this year. ☀️
+    ---
+    """
 
-days_left = (end_of_year_day - current_day).days
+    current_year = date.today().year
+    end_of_year_day = date(current_year, 12, 31)
 
-if previous_day.isocalendar().week < current_day.isocalendar().week:
-    weeks_all = int((end_of_year_day - date(current_year, 1, 1)).days / 7)
-    week_num = current_day.isocalendar().week
-    week_num_format = str(week_num) + ordinal_number(str(week_num))
-    weeks_left = weeks_all - week_num
+    yesterday_date = current_date - timedelta(days=1)
+    days_left = (end_of_year_day - current_date).days
 
-    tweet(
-        f"{week_num_format} week of {current_year} is starting with {weeks_left} weeks ({days_left} days) left this year. :sun:"
-    )
+    if yesterday_date.isocalendar().week < current_date.isocalendar().week:
+        all_weeks = int((end_of_year_day - date(current_year, 1, 1)).days / 7)
+        week_num = current_date.isocalendar().week
+        week_num_format = str(week_num) + ordinal_number(str(week_num))
+        weeks_left = all_weeks - week_num
 
-elif current_day == date(current_year, 12, 25):
-    tweet(
-        f"Merry Christmas! :christmas_tree: Next week we will be in {next_year}!"
-    )
+        return f"{week_num_format} week of {current_year} is starting with {weeks_left} weeks ({days_left} days) left. :sun:"
 
-elif current_day == date(current_year, 12, 31):
-    tweet(f"The last day of {current_year} has finally come! :partying_face:")
+    if current_date == date(current_year, 12, 25):
+        return f"Merry Christmas!:christmas_tree: Don't forget that there are only {days_left} days left this year!"
 
-elif current_day == date(current_year, 1, 1):
-    tweet(
-        f"{current_year} is here! I wish you all health, love, and happiness in the new year. Happy New Year! :tada:"
-    )
-    update_profile_picture(current_year)
+    if current_date == date(current_year, 1, 1):
+        return f"I wish you all health, love, and happiness in {current_year}. Happy New Year! :tada:"
+
+    return None
+
+
+text = format_tweet(date.today())
+if text:
+    tweet(text)
