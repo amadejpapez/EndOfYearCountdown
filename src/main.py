@@ -20,7 +20,7 @@ def tweet(tweet_text):
         access_token_secret=KEYS["EndOfYearCountdown"]["access_token_secret"],
     )
 
-    API.create_tweet(text=emojize(tweet_text, use_aliases=True))
+    API.create_tweet(text=emojize(tweet_text, language="alias"))
 
 
 def ordinal_number(num):

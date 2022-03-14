@@ -1,2 +1,2 @@
-tweepy==4.5.0
-emoji==1.6.3
+emoji==1.7.0
+tweepy==4.6.0
