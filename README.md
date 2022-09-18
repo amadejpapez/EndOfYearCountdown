@@ -2,13 +2,21 @@
 <br>
 <p align="center"><b>Twitter bot written in Python 🐍</b></p>
 <p align="center"><b>Counting how many days and weeks there are left this year 📆</b></p>
-<p align="center"><b>Running on <a href="https://twitter.com/EndOfYearCount">@EndOfYearCount</a> since February 1, 2020</b></p>
 
 <br>
 
-<p align="center"><img src="images/img_dark.jpg" width=340</p>
+<p align="center"><b>Was running on a Twitter account <i>@EndOfYearCount</i>
+<br>
+from February 1, 2020 to September 18, 2022</b></p>
+
+<br>
+
+<p align="center"><img src="images/twitter_profile.jpeg" width=340</p>
+
+<br>
 
 ## 🦾 How does it work?
+
 It gets info like current date, month, year, which year is next and so on. Then it calculates how many days and weeks there are till the end of the year.
 
 If current day is Monday, start of a week, it will make a tweet which week number is starting and how many days and weeks there are left this year.
